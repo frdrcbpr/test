@@ -143,6 +143,11 @@
       color: #fff;
     }
 
+    .result-row.taxes .result-label,
+    .result-row.taxes .result-value {
+      color: #f0a500;
+    }
+
     .result-row.total .result-label {
       font-size: 1rem;
       color: #e94560;
@@ -152,6 +157,17 @@
     .result-row.total .result-value {
       font-size: 1.5rem;
       color: #e94560;
+    }
+
+    .result-row.grand-total .result-label {
+      font-size: 1rem;
+      color: #4ecdc4;
+      font-weight: 700;
+    }
+
+    .result-row.grand-total .result-value {
+      font-size: 1.5rem;
+      color: #4ecdc4;
     }
 
     .per-person {
@@ -220,12 +236,24 @@
         <span class="result-value" id="res-subtotal">$0.00</span>
       </div>
       <div class="result-row">
-        <span class="result-label">Pourboire (<span id="res-pct">18</span>%)</span>
+        <span class="result-label">Pourboire (<span id="res-pct">15</span>%)</span>
         <span class="result-value" id="res-tip">$0.00</span>
       </div>
       <div class="result-row total">
-        <span class="result-label">Total (avant taxes + pourboire)</span>
+        <span class="result-label">Sous-total (avant taxes + pourboire)</span>
         <span class="result-value" id="res-total">$0.00</span>
+      </div>
+      <div class="result-row taxes">
+        <span class="result-label">TPS (5%)</span>
+        <span class="result-value" id="res-tps">$0.00</span>
+      </div>
+      <div class="result-row taxes">
+        <span class="result-label">TVQ (9,975%)</span>
+        <span class="result-value" id="res-tvq">$0.00</span>
+      </div>
+      <div class="result-row grand-total">
+        <span class="result-label">Grand total</span>
+        <span class="result-value" id="res-grand-total">$0.00</span>
       </div>
       <div class="per-person result-row">
         <span class="result-label">Pourboire par personne</span>
@@ -245,6 +273,9 @@
     const resSubtotal = document.getElementById('res-subtotal');
     const resTip = document.getElementById('res-tip');
     const resTotal = document.getElementById('res-total');
+    const resTps = document.getElementById('res-tps');
+    const resTvq = document.getElementById('res-tvq');
+    const resGrandTotal = document.getElementById('res-grand-total');
     const resPerPerson = document.getElementById('res-per-person');
     const resPct = document.getElementById('res-pct');
 
@@ -254,15 +285,24 @@
       return '$' + n.toFixed(2);
     }
 
+    const TPS_RATE = 0.05;
+    const TVQ_RATE = 0.09975;
+
     function calculate() {
       const subtotal = Math.max(0, parseFloat(subtotalInput.value) || 0);
       const people = Math.max(1, parseInt(peopleInput.value) || 1);
       const tip = subtotal * (selectedTip / 100);
       const total = subtotal + tip;
+      const tps = subtotal * TPS_RATE;
+      const tvq = subtotal * TVQ_RATE;
+      const grandTotal = total + tps + tvq;
 
       resSubtotal.textContent = fmt(subtotal);
       resTip.textContent = fmt(tip);
       resTotal.textContent = fmt(total);
+      resTps.textContent = fmt(tps);
+      resTvq.textContent = fmt(tvq);
+      resGrandTotal.textContent = fmt(grandTotal);
       resPerPerson.textContent = fmt(tip / people);
       resPct.textContent = selectedTip % 1 === 0 ? selectedTip : selectedTip.toFixed(1);
     }
