@@ -195,8 +195,8 @@
       <label>Pourcentage de pourboire</label>
       <div class="tip-buttons">
         <button class="tip-btn" data-tip="10">10%</button>
-        <button class="tip-btn" data-tip="15">15%</button>
-        <button class="tip-btn active" data-tip="18">18%</button>
+        <button class="tip-btn active" data-tip="15">15%</button>
+        <button class="tip-btn" data-tip="18">18%</button>
         <button class="tip-btn" data-tip="20">20%</button>
         <button class="tip-btn" data-tip="25">25%</button>
         <button class="tip-btn" data-tip="30">30%</button>
@@ -248,7 +248,7 @@
     const resPerPerson = document.getElementById('res-per-person');
     const resPct = document.getElementById('res-pct');
 
-    let selectedTip = 18;
+    let selectedTip = 15;
 
     function fmt(n) {
       return '$' + n.toFixed(2);
@@ -294,8 +294,8 @@
       customTipInput.value = '';
       peopleInput.value = '1';
       tipButtons.forEach(b => b.classList.remove('active'));
-      document.querySelector('[data-tip="18"]').classList.add('active');
-      selectedTip = 18;
+      document.querySelector('[data-tip="15"]').classList.add('active');
+      selectedTip = 15;
       calculate();
     });
 
